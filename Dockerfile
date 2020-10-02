@@ -6,17 +6,22 @@ ARG BINDIR=/usr/bin
 # Package version
 ARG KUBECTL_VERSION="v1.18.9"
 ARG HELM_VERSION="v3.3.4"
-ARG HELMFILE_VERSION="v0.130.0"
+ARG HELMFILE_VERSION="v0.130.1"
 ARG KOPS_VERSION="v1.18.1"
 ARG TERRAFORM_VERSION="0.13.3"
 ARG TERRAGRUNT_VERSION="v0.25.2"
-ARG SECRETS_HELM_PLUGIN_VERSION="2.0.2"
-ARG GIT_HELM_PLUGIN_VERSION="0.8.1"
-ARG DIFF_HELM_PLUGIN_VERSION="3.1.3"
+ARG HELM_PLUGIN_VERSION_SECRETS="2.0.2"
+ARG HELM_PLUGIN_VERSION_GIT="0.8.1"
+ARG HELM_PLUGIN_VERSION_DIFF="3.1.3"
+ARG HELM_PLUGIN_VERSION_SPRAY="4.0.2"
+ARG HELM_PLUGIN_VERSION_PUSH="0.8.1"
+ARG HELM_PLUGIN_VERSION_2TO3="0.7.0"
+ARG HELM_PLUGIN_VERSION_MAPKUBEAPIS="0.0.14"
+ARG HELM_PLUGIN_VERSION_ENV="0.1.0"
+ARG HELM_PLUGIN_VERSION_PUSH_ARTIFACTORY="1.0.1"
 
 # AWS CLI 2 dependency
-ARG GLIBC_VERSION=2.31-r0
-
+ARG GLIBC_VERSION="2.31-r0"
 
 # Setup software we need for pipelines and adhocs
 RUN apk --update add --no-cache git openssh-client make openssl curl jq tar gzip bash gnupg ca-certificates                                                \
@@ -34,9 +39,15 @@ RUN apk --update add --no-cache git openssh-client make openssl curl jq tar gzip
       $BINDIR/terraform                                                                                                                                    \
       $BINDIR/terragrunt                                                                                                                                   \
 # Install helm plugins
- && helm plugin install https://github.com/zendesk/helm-secrets --version ${SECRETS_HELM_PLUGIN_VERSION}                                                   \
- && helm plugin install https://github.com/aslafy-z/helm-git --version ${GIT_HELM_PLUGIN_VERSION}                                                          \
- && helm plugin install https://github.com/databus23/helm-diff --version ${DIFF_HELM_PLUGIN_VERSION}                                                       \
+ && helm plugin install https://github.com/zendesk/helm-secrets --version ${HELM_PLUGIN_VERSION_SECRETS}                                                   \
+ && helm plugin install https://github.com/aslafy-z/helm-git --version ${HELM_PLUGIN_VERSION_GIT}                                                          \
+ && helm plugin install https://github.com/databus23/helm-diff --version ${HELM_PLUGIN_VERSION_DIFF}                                                       \
+ && helm plugin install https://github.com/ThalesGroup/helm-spray --version ${HELM_PLUGIN_VERSION_SPRAY}                                                   \
+ && helm plugin install https://github.com/chartmuseum/helm-push --version ${HELM_PLUGIN_VERSION_PUSH}                                                     \
+ && helm plugin install https://github.com/helm/helm-2to3 --version ${HELM_PLUGIN_VERSION_2TO3}                                                            \
+ && helm plugin install https://github.com/hickeyma/helm-mapkubeapis --version ${HELM_PLUGIN_VERSION_MAPKUBEAPIS}                                          \
+ && helm plugin install https://github.com/adamreese/helm-env --version ${HELM_PLUGIN_VERSION_ENV}                                                         \
+ && helm plugin install https://github.com/belitre/helm-push-artifactory-plugin --version ${HELM_PLUGIN_VERSION_PUSH_ARTIFACTORY}                          \
 # install glibc compatibility for alpine (awscli-v2 requirement)
  && curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub                                                           \
  && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk                                   \
