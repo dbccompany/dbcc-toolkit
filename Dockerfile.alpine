@@ -24,7 +24,7 @@ ARG HELM_PLUGIN_VERSION_PUSH_ARTIFACTORY="1.0.1"
 ARG GLIBC_VERSION="2.31-r0"
 
 # Setup software we need for pipelines and adhocs
-RUN apk --update add --no-cache git openssh-client make openssl curl jq tar gzip bash gnupg ca-certificates                                                \
+RUN apk --update add --no-cache git openssh-client make openssl curl jq tar gzip bash gnupg docker skopeo ca-certificates                                                \
  && curl -Lso- "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz" | tar -xvz --strip-components=1 -C $BINDIR linux-amd64/helm                   \
  && curl -Lso $BINDIR/kubectl "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"                       \
  && curl -Lso $BINDIR/helmfile "https://github.com/roboll/helmfile/releases/download/${HELMFILE_VERSION}/helmfile_linux_amd64"                             \
