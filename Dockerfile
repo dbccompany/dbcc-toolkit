@@ -61,6 +61,9 @@ RUN apt update -y                                                               
  && aws/install --install-dir /usr/local/aws-cli --bin-dir $BINDIR                                                                                      \
 # alias docker to podman (for all sessions respecting PATH)
  && ln -sf $(which podman) $BINDIR/docker                                                                                                               \
+# Enable podman mount_program and set event logger to 'none'
+ && sed -i -e 's/#mount_program/mount_program/' /etc/containers/storage.conf                                                                            \
+ && echo "[engine]\nevents_logger = \"none\"" > /etc/containers/containers.conf                                                                         \
 # Clean up some garbage
  && rm -rf /root/.cache                                                                                                                                 \
            /tmp/*                                                                                                                                       \
