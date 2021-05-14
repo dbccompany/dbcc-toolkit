@@ -63,7 +63,7 @@ RUN apt update -y                                                               
  && ln -sf $(which podman) $BINDIR/docker                                                                                                               \
 # Enable podman mount_program and set event logger to 'none'
  && sed -i -e 's/#mount_program/mount_program/' /etc/containers/storage.conf                                                                            \
- && echo "[engine]\nevents_logger = \"none\"" > /etc/containers/containers.conf                                                                         \
+ && echo "[engine]\nevents_logger = \"none\"\ncgroup_manager = \"cgroupfs\"" > /etc/containers/containers.conf                                          \
 # Clean up some garbage
  && rm -rf /root/.cache                                                                                                                                 \
            /tmp/*                                                                                                                                       \
