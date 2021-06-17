@@ -52,6 +52,7 @@ RUN apt update -y                                                               
  && helm plugin install https://github.com/adamreese/helm-env --version ${HELM_PLUGIN_VERSION_ENV}                                                      \
  && helm plugin install https://github.com/belitre/helm-push-artifactory-plugin --version ${HELM_PLUGIN_VERSION_PUSH_ARTIFACTORY}                       \
 # Install awscli v2
+# && pip3 install --upgrade git+git://github.com/aws/aws-cli.git#2.2.12 azure-cli==2.25.0 \
  && curl -sL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip                                                                   \
  && unzip awscliv2.zip                                                                                                                                  \
  && aws/install --install-dir /usr/local/aws-cli --bin-dir $BINDIR                                                                                      \
