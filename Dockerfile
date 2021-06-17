@@ -72,3 +72,7 @@ RUN apt update -y                                                               
            /usr/local/aws-cli/v2/*/dist/aws_completer                                                                                                   \
            /usr/local/aws-cli/v2/*/dist/awscli/data/ac.index                                                                                            \
            /usr/local/aws-cli/v2/*/dist/awscli/examples
+# Add the Jenkins user
+RUN groupadd --gid 1000 jenkins; useradd jenkins --create-home --uid 1000 -g jenkins -c "Jenkins User Account"
+# Switch to jenkins user
+USER jenkins
